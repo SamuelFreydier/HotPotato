@@ -38,7 +38,7 @@ public:
 	void Tick( float DeltaSeconds );
 
 	void AddObjective( const TSharedPtr<FFetchObjective>& Objective );
-	void UpdateObjective( FPotatoDish& FetchedDish );
+	void UpdateObjective( EPotatoType PotatoType, int32& Quantity );
 
 	bool IsQuestCompleted() const { return bIsCompleted; }
 	bool HasBeenFailed() const { return bHasBeenFailed; }
@@ -46,6 +46,8 @@ public:
 	const uint64& GetReward() const { return Reward; }
 	void SetTimer( const float& Seconds ) { SecondsRemaining = Seconds; }
 	const float& GetSecondsRemaining() const { return SecondsRemaining; }
+
+	void ShowQuest() const;
 
 
 private:
@@ -58,14 +60,11 @@ private:
 };
 
 
-UCLASS()
-class HOTPOTATO_API UQuestGenerator : public UObject
+class HOTPOTATO_API QuestGenerator
 {
-	GENERATED_BODY()
-
 public:
-	UQuestGenerator();
-	~UQuestGenerator();
+	QuestGenerator();
+	~QuestGenerator();
 
 	TSharedPtr<Quest> GenerateQuest( const uint64& ScoreSeed, const uint16& PotatoMaximum ) const;
 

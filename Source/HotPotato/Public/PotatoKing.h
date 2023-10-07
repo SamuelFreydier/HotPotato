@@ -9,7 +9,7 @@
 #include "HotPotato/HotPotatoGameMode.h"
 #include "PotatoKing.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class HOTPOTATO_API APotatoKing : public AActor
 {
 	GENERATED_BODY()
@@ -23,21 +23,25 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	void Init( const uint16& BaseGluttony = 5 );
+	UFUNCTION(BlueprintCallable)
+	void PotatoBeginPlay();
+
+	UFUNCTION(BlueprintCallable)
+	void Init( int32 BaseGluttony = 5, int32 BaseScoreOffset = 30 );
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Eat some kind of potato (yes it is cannibalism)
-	void EatPotato( FPotatoDish& BasePotato );
+	void EatPotato( EPotatoType BasePotato, int32& Quantity );
 
-	void AddQuest();
+	void AddQuest( int32 ScoreOffset = 0 );
 
 private:
 	std::vector<TSharedPtr<Quest>> Quests;
 
 	UPROPERTY( EditAnywhere )
-	uint16 PotatoGluttony{ 5 };
+	int32 PotatoGluttony{ 5 };
 
 	// Référence vers le GameMode
 	AHotPotatoGameMode* GameMode;

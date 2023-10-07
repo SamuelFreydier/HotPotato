@@ -4,7 +4,7 @@
 #include "Quest.h"
 #include "HotPotato/HotPotatoGameMode.h"
 
-const TMap<EPotatoType, uint64> UQuestGenerator::PotatoValues = {
+const TMap<EPotatoType, uint64> QuestGenerator::PotatoValues = {
     {EPotatoType::POTATO, 10},
     {EPotatoType::CHIPS, 100},
     {EPotatoType::FRIES, 1000},
@@ -38,7 +38,7 @@ void Quest::AddObjective( const TSharedPtr<FFetchObjective>& Objective )
     }
 }
 
-void Quest::UpdateObjective( FPotatoDish& FetchedDish )
+void Quest::UpdateObjective( EPotatoType PotatoType, int32& Quantity )
 {
     bool bIsFinished = false;
     std::vector<TSharedPtr<FFetchObjective>>::iterator ObjectiveIterator = Objectives.begin();
@@ -46,12 +46,13 @@ void Quest::UpdateObjective( FPotatoDish& FetchedDish )
     while( !bIsFinished && ObjectiveIterator != Objectives.end() )
     {
         TSharedPtr<FFetchObjective> CurrentObjective = ( *ObjectiveIterator );
-        if( CurrentObjective->PotatoType == FetchedDish.GetType() )
+        if( CurrentObjective->PotatoType == PotatoType )
         {
             uint16 QuantityCap = CurrentObjective->GoalQuantity - CurrentObjective->CurrentQuantity;
-            uint16 QuantityTransfer = QuantityCap > FetchedDish.GetQuantity() ? FetchedDish.GetQuantity() : QuantityCap;
+            uint16 QuantityTransfer = QuantityCap > Quantity ? Quantity : QuantityCap;
             CurrentObjective->CurrentQuantity += QuantityTransfer;
-            FetchedDish.DecreaseQuantity( QuantityTransfer );
+            Quantity -= QuantityTransfer;
+            if( Quantity < 0 ) Quantity = 0;
         }
 
         if( CurrentObjective->CurrentQuantity >= CurrentObjective->GoalQuantity )
@@ -71,17 +72,49 @@ void Quest::UpdateObjective( FPotatoDish& FetchedDish )
     }
 }
 
-UQuestGenerator::UQuestGenerator()
+void Quest::ShowQuest() const
+{
+    if( GEngine )
+    {
+        int32 indexdebug = 15;
+        for( TSharedPtr<FFetchObjective> Objective : Objectives )
+        {
+            GEngine->AddOnScreenDebugMessage(
+                indexdebug,
+                1.f,
+                FColor::Blue,
+                FString::Printf( TEXT( "Fetch %d/%d %s" ), Objective->CurrentQuantity, Objective->GoalQuantity, TEXT("POTATOES"))
+            );
+            indexdebug++;
+
+        }
+        GEngine->AddOnScreenDebugMessage(
+            indexdebug,
+            1.f,
+            FColor::Blue,
+            FString::Printf( TEXT( "Reward: %d" ), Reward )
+        );
+        GEngine->AddOnScreenDebugMessage(
+            indexdebug + 1,
+            1.f,
+            FColor::Blue,
+            FString::Printf( TEXT( "Remaining time: %f" ), SecondsRemaining )
+        );
+    }
+}
+
+QuestGenerator::QuestGenerator()
 {
 }
 
-UQuestGenerator::~UQuestGenerator()
+QuestGenerator::~QuestGenerator()
 {
 }
 
-TSharedPtr<Quest> UQuestGenerator::GenerateQuest( const uint64& ScoreSeed, const uint16& PotatoMaximum ) const
+TSharedPtr<Quest> QuestGenerator::GenerateQuest( const uint64& ScoreSeed, const uint16& PotatoMaximum ) const
 {
     TSharedPtr<Quest> NewQuest = MakeShared<Quest>();
+    NewQuest->SetTimer( 15 );
 
     uint16 PotatoCpt = 0;
     
@@ -89,7 +122,7 @@ TSharedPtr<Quest> UQuestGenerator::GenerateQuest( const uint64& ScoreSeed, const
     {
         uint16 PotatoNumber = ( ScoreSeed % ( PotatoValuePair.Value * 10 ) ) / PotatoValuePair.Value;
 
-        if( PotatoNumber > PotatoCpt )
+        if( PotatoNumber > PotatoMaximum - PotatoCpt )
         {
             PotatoNumber = PotatoMaximum - PotatoCpt;
         }

@@ -49,3 +49,25 @@ void AHotPotatoCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 }
+
+void AHotPotatoCharacter::GatherPotato( EPotatoType PotatoType, int32 Quantity )
+{
+	if( Inventory.Contains( PotatoType ) )
+	{
+		Inventory[ PotatoType ] += Quantity;
+	}
+	else
+	{
+		Inventory.Add( PotatoType, Quantity );
+	}
+}
+
+void AHotPotatoCharacter::GivePotatoes( APotatoKing* PotatoKing )
+{
+	for( TPair<EPotatoType, int32>& InventoryPair : Inventory )
+	{
+		PotatoKing->EatPotato( InventoryPair.Key, InventoryPair.Value );
+	}
+
+	Inventory.Reset();
+}
