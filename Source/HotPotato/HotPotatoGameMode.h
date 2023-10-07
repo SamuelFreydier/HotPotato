@@ -13,6 +13,11 @@ class AHotPotatoGameMode : public AGameModeBase
 
 public:
 	AHotPotatoGameMode();
+
+	const uint64& GetScore() const { return Score; }
+	void IncrementScore( const uint64& Amount ) { Score += Amount; }
+private:
+	uint64 Score;
 };
 
 

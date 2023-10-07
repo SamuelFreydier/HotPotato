@@ -6,6 +6,7 @@
 #include "UObject/ConstructorHelpers.h"
 
 AHotPotatoGameMode::AHotPotatoGameMode()
+	: Score( 0 )
 {
 	// use our custom PlayerController class
 	PlayerControllerClass = AHotPotatoPlayerController::StaticClass();
