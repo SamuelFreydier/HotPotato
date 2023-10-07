@@ -2,6 +2,7 @@
 
 
 #include "PotatoKing.h"
+#include <iostream>
 
 APotatoKing::APotatoKing()
 {
