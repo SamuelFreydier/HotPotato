@@ -14,7 +14,11 @@ class AHotPotatoGameMode : public AGameMode
 public:
 	AHotPotatoGameMode();
 
+	UFUNCTION(BlueprintCallable)
+	FString ScoreToString() const;
+
 	const uint64& GetScore() const { return Score; }
+
 	void IncrementScore( const uint64& Amount ) { Score += Amount; }
 private:
 	uint64 Score;

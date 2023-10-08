@@ -48,7 +48,7 @@ public:
 	const float& GetSecondsRemaining() const { return SecondsRemaining; }
 
 	void ShowQuest() const;
-
+	FString ToString() const;
 
 private:
 	std::vector<TSharedPtr<FFetchObjective>> Objectives;

@@ -25,3 +25,12 @@ AHotPotatoGameMode::AHotPotatoGameMode()
 		PlayerControllerClass = PlayerControllerBPClass.Class;
 	}
 }
+
+FString AHotPotatoGameMode::ScoreToString() const
+{
+	FStringBuilderBase ScoreStringBuilder;
+
+	ScoreStringBuilder.Append( "Potato Heat\n" ).Append( FString::FromInt( Score ) );
+
+	return ScoreStringBuilder.ToString();
+}

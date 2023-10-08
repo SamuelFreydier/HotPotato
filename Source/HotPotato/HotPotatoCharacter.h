@@ -30,6 +30,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void GivePotatoes( APotatoKing* PotatoKing );
 
+	UFUNCTION(BlueprintCallable)
+	FString InventoryToString() const;
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

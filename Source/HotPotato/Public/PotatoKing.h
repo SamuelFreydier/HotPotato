@@ -37,6 +37,9 @@ public:
 
 	void AddQuest( int32 ScoreOffset = 0 );
 
+	UFUNCTION(BlueprintCallable)
+	FString QuestsToString() const;
+
 private:
 	std::vector<TSharedPtr<Quest>> Quests;
 

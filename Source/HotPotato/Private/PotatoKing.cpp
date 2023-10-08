@@ -40,16 +40,6 @@ void APotatoKing::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if( GameMode && GEngine )
-	{
-		GEngine->AddOnScreenDebugMessage(
-			2,
-			15.f,
-			FColor::Green,
-			FString::Printf( TEXT( "Score: %d" ), GameMode->GetScore() )
-		);
-	}
-
 	// Tick des quêtes existantes
 	for( TSharedPtr<Quest>& Quest : Quests )
 	{
@@ -68,8 +58,6 @@ void APotatoKing::Tick(float DeltaTime)
 				);
 			}
 		}
-
-		Quest->ShowQuest();
 	}
 }
 
@@ -115,5 +103,17 @@ void APotatoKing::AddQuest( int32 BaseScoreOffset )
 	{
 		Quests.push_back( NewQuest );
 	}
+}
+
+FString APotatoKing::QuestsToString() const
+{
+	FStringBuilderBase QuestsStringBuilder;
+
+	for( const auto& Quest : Quests )
+	{
+		QuestsStringBuilder.Append( Quest->ToString() ).Append( '\n' );
+	}
+
+	return QuestsStringBuilder.ToString();
 }
 

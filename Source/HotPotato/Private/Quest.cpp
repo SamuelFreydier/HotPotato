@@ -106,6 +106,26 @@ void Quest::ShowQuest() const
     }
 }
 
+FString Quest::ToString() const
+{
+    FStringBuilderBase QuestStringBuilder;
+
+    // Objectifs
+    for( const auto& Objective : Objectives )
+    {
+        const TEnumAsByte<EPotatoType> PotatoEnum = Objective->PotatoType;
+        FText PotatoTypeText;
+        UEnum::GetDisplayValueAsText( PotatoEnum, PotatoTypeText );
+
+        QuestStringBuilder.Append( FString::Printf( TEXT( "Fetch %d %s (%d/%d)\n" ), Objective->GoalQuantity, *PotatoTypeText.ToString(), Objective->CurrentQuantity, Objective->GoalQuantity ) );
+    }
+    
+    // Temps restant
+    QuestStringBuilder.Append( FString::Printf( TEXT( "Remaining time: %.0f\n" ), SecondsRemaining ) );
+
+    return QuestStringBuilder.ToString();
+}
+
 QuestGenerator::QuestGenerator()
 {
 }
