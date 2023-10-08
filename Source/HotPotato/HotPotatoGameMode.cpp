@@ -6,12 +6,13 @@
 #include "UObject/ConstructorHelpers.h"
 
 AHotPotatoGameMode::AHotPotatoGameMode()
+	: Score( 0 )
 {
 	// use our custom PlayerController class
 	PlayerControllerClass = AHotPotatoPlayerController::StaticClass();
 
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownCharacter"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Character/BP_PlayerCharacter"));
 	if (PlayerPawnBPClass.Class != nullptr)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
@@ -23,4 +24,13 @@ AHotPotatoGameMode::AHotPotatoGameMode()
 	{
 		PlayerControllerClass = PlayerControllerBPClass.Class;
 	}
+}
+
+FString AHotPotatoGameMode::ScoreToString() const
+{
+	FStringBuilderBase ScoreStringBuilder;
+
+	ScoreStringBuilder.Append( "Potato Heat\n" ).Append( FString::FromInt( Score ) );
+
+	return ScoreStringBuilder.ToString();
 }
