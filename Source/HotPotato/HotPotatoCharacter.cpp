@@ -55,11 +55,14 @@ void AHotPotatoCharacter::Tick(float DeltaSeconds)
 		int key = 36;
 		for( const auto& InventoryPair : Inventory )
 		{
+			const TEnumAsByte<EPotatoType> PotatoEnum = InventoryPair.Key;
+			FText PotatoTypeText;
+			UEnum::GetDisplayValueAsText( PotatoEnum, PotatoTypeText );
 			GEngine->AddOnScreenDebugMessage(
 				key,
 				15.f,
 				FColor::Yellow,
-				FString::Printf( TEXT( "Nombre de %s : %d" ), *UEnum::GetValueAsName( InventoryPair.Key ).ToString(), InventoryPair.Value )
+				FString::Printf( TEXT( "Nombre de %s : %d" ), *PotatoTypeText.ToString(), InventoryPair.Value)
 			);
 			key++;
 
@@ -70,12 +73,6 @@ void AHotPotatoCharacter::Tick(float DeltaSeconds)
 
 void AHotPotatoCharacter::GatherPotato( EPotatoType PotatoType, int32 Quantity )
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		15.f,
-		FColor::Yellow,
-		FString::Printf( TEXT( "Potato gathered" ) )
-	);
 	if( Inventory.Contains( PotatoType ) )
 	{
 		Inventory[ PotatoType ] += Quantity;
@@ -93,5 +90,5 @@ void AHotPotatoCharacter::GivePotatoes( APotatoKing* PotatoKing )
 		PotatoKing->EatPotato( InventoryPair.Key, InventoryPair.Value );
 	}
 
-	Inventory.Reset();
+	//Inventory.Reset();
 }

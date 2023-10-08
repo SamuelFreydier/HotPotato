@@ -79,11 +79,14 @@ void Quest::ShowQuest() const
         int32 indexdebug = 15;
         for( TSharedPtr<FFetchObjective> Objective : Objectives )
         {
+            const TEnumAsByte<EPotatoType> PotatoEnum = Objective->PotatoType;
+            FText PotatoTypeText;
+            UEnum::GetDisplayValueAsText( PotatoEnum, PotatoTypeText );
             GEngine->AddOnScreenDebugMessage(
                 indexdebug,
                 1.f,
                 FColor::Blue,
-                FString::Printf( TEXT( "Fetch %d/%d %s" ), Objective->CurrentQuantity, Objective->GoalQuantity, TEXT("POTATOES"))
+                FString::Printf( TEXT( "Fetch %d/%d %s" ), Objective->CurrentQuantity, Objective->GoalQuantity, *PotatoTypeText.ToString() )
             );
             indexdebug++;
 
