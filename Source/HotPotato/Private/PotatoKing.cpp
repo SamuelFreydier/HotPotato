@@ -56,6 +56,7 @@ void APotatoKing::Tick(float DeltaTime)
 
 		if( Quest->HasBeenFailed() )
 		{
+			bTerminated = true;
 			// Condition de défaite
 			if( GEngine )
 			{

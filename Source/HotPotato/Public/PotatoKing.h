@@ -42,7 +42,13 @@ public:
 	FString QuestsToString() const;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Audio, meta = (AllowPrivateAccess = "true"))
-		class USoundCue* SC_Background;
+	class USoundCue* SC_Background;
+
+	UFUNCTION()
+	bool IsTerminated() const { return bTerminated; }
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bTerminated = false;
 
 private:
 	std::vector<TSharedPtr<Quest>> Quests;
@@ -52,5 +58,6 @@ private:
 
 	// Référence vers le GameMode
 	AHotPotatoGameMode* GameMode;
+
 
 };
