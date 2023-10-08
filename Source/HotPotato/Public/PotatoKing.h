@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Sound/SoundCue.h"
 #include "GameFramework/Actor.h"
 #include "PotatoDish.h"
 #include "Quest.h"
@@ -39,6 +40,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FString QuestsToString() const;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Audio, meta = (AllowPrivateAccess = "true"))
+		class USoundCue* SC_Background;
 
 private:
 	std::vector<TSharedPtr<Quest>> Quests;

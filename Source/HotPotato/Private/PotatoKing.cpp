@@ -8,6 +8,13 @@ APotatoKing::APotatoKing()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	static ConstructorHelpers::FObjectFinder<USoundCue> SC_BackgroundObject(TEXT("/Script/Engine.SoundCue'/Game/Music/SC_Background.SC_Background'"));
+
+	if (SC_BackgroundObject.Succeeded())
+	{
+		SC_Background = SC_BackgroundObject.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -76,6 +83,8 @@ void APotatoKing::EatPotato( EPotatoType BasePotato, int32& Quantity )
 		{
 			QuestIterator = Quests.erase( QuestIterator );
 			GameMode->IncrementScore( CurrentQuest->GetReward() );
+
+			SC_Background->PitchMultiplier *= 1.2;
 
 			// Le roi a toujours faim hein tu croyais quoi
 			PotatoGluttony++;
