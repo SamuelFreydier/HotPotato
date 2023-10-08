@@ -61,7 +61,7 @@ void APotatoKing::Tick(float DeltaTime)
 			if( GEngine )
 			{
 				GEngine->AddOnScreenDebugMessage(
-					-1,
+					50,
 					15.f,
 					FColor::Red,
 					FString::Printf( TEXT( "Vous avez perdu bande de gros nazes !" ) )
