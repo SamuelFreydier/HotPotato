@@ -12,7 +12,7 @@
 
 AHotPotatoPlayerController::AHotPotatoPlayerController()
 {
-	bShowMouseCursor = true;
+	//bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
