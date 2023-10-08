@@ -48,10 +48,34 @@ AHotPotatoCharacter::AHotPotatoCharacter()
 void AHotPotatoCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+
+	if( GEngine )
+	{
+		
+		int key = 36;
+		for( const auto& InventoryPair : Inventory )
+		{
+			GEngine->AddOnScreenDebugMessage(
+				key,
+				15.f,
+				FColor::Yellow,
+				FString::Printf( TEXT( "Nombre de %s : %d" ), *UEnum::GetValueAsName( InventoryPair.Key ).ToString(), InventoryPair.Value )
+			);
+			key++;
+
+		}
+		
+	}
 }
 
 void AHotPotatoCharacter::GatherPotato( EPotatoType PotatoType, int32 Quantity )
 {
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		15.f,
+		FColor::Yellow,
+		FString::Printf( TEXT( "Potato gathered" ) )
+	);
 	if( Inventory.Contains( PotatoType ) )
 	{
 		Inventory[ PotatoType ] += Quantity;

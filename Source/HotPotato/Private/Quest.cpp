@@ -114,7 +114,7 @@ QuestGenerator::~QuestGenerator()
 TSharedPtr<Quest> QuestGenerator::GenerateQuest( const uint64& ScoreSeed, const uint16& PotatoMaximum ) const
 {
     TSharedPtr<Quest> NewQuest = MakeShared<Quest>();
-    NewQuest->SetTimer( 15 );
+    NewQuest->SetTimer( 40 );
 
     uint16 PotatoCpt = 0;
     
