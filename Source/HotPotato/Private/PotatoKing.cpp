@@ -127,4 +127,3 @@ FString APotatoKing::QuestsToString() const
 
 	return QuestsStringBuilder.ToString();
 }
-
